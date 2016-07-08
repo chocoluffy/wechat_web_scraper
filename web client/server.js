@@ -21,7 +21,7 @@ app.post('/ada', function(req, res) {
 	log += "The article's title: " + req.body.title + "<br>";
 	log += "The author: " + req.body.author + "<br>";
 	log += "The url: " + req.body.url + "<br>";
-	log += "The texts you enter: " + req.body.description + "<br>";
+	// log += "The texts you enter: " + req.body.description + "<br>";  // for a long post, it may seems redundant.
 
 	py.stdout.on('data', function(data){
 	  resultString += data.toString();
