@@ -67,7 +67,7 @@ def update():
                 writer = csv.writer(target)
                 writer.writerow(newrow)
                 # return newrow # instead of returning that new post(look redundant), show a successful meg just be fine!
-                return "Your post: 《" + title + "》 has been succesfully uploaded to databased!!!"
+                return "Your post: <" + title + "> has been succesfully uploaded to databased!!!"
     else:
         return "Just a reminder that it's successfully updated, while it won't modify the database for now."
 
