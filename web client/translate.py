@@ -10,7 +10,7 @@ def read_in():
     return json.loads(lines[0])
 
 def info(msg):
-    print msg
+    print msg.encode('utf-8')
     print '<br>'
 
 def main():

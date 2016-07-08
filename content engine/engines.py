@@ -77,17 +77,27 @@ class ContentEngine(object):
         the item ID and the second is the similarity score. Sorted by similarity score, descending.
         """
         results = self._r.zrange(self.SIMKEY % item_id, 0, num-1, withscores=True, desc=True)
+        resultsLog = ''
 
         ds = pd.read_csv(data_source)
         for indx, row in ds.iterrows():
             if str(row['id']) == item_id:
                 info("Matching for: " + row['title'])
+                resultsLog += "Matching for: " + row['title']
                 break
 
-        for i in range(2):
+        for i in range(num):
             self.search(ds, results, i)
 
-        return results
+        predictions = []
+        for j in range(num):
+            for index, row in ds.iterrows():
+                if str(row['id']) == results[j][0]:
+                    prediction = "<br>NO." + str(j) + " : " + str(row['title']).decode('utf-8') + " similarity score: " + str(results[j][1]) + "<br>"
+                    predictions.append(prediction)
+
+        info(predictions)
+        return "<br>".join(predictions)
 
 
 
