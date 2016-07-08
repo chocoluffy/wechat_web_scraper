@@ -15,6 +15,9 @@ def token_auth(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def toUTF(text):
+    return text.encode('utf-8')
+
 
 @app.route('/predict', methods=['POST'])
 @token_auth
@@ -59,11 +62,12 @@ def update():
             reader = csv.DictReader(source.read().splitlines())
             # return "number of row: " + str(len(list(reader))) # return the number of rows inside backup.csv, used as next index.
             rowid = str(len(list(reader)))
-            newrow = [rowid, title, author, date, url, content]
+            newrow = map(toUTF, [rowid, title, author, date, url, content])
             with open('backup.csv', 'a') as target:
                 writer = csv.writer(target)
                 writer.writerow(newrow)
-                return newrow
+                # return newrow # instead of returning that new post(look redundant), show a successful meg just be fine!
+                return "Your post: 《" + title + "》 has been succesfully uploaded to databased!!!"
     else:
         return "Just a reminder that it's successfully updated, while it won't modify the database for now."
 
