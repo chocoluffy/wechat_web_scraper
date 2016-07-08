@@ -14,12 +14,13 @@ app.post('/ada', function(req, res) {
 	var spawn = require('child_process').spawn,
 	    py    = spawn('python', ['translate.py']),
 	    // data = [1,2,3,4,5,6,7,8,9],
-	    data = [req.body.title, req.body.author, getDateTime(), req.body.description]
+	    data = [req.body.title, req.body.author, getDateTime(), req.body.url, req.body.description]
 	    resultString = '',
 	    log = '';
 
 	log += "The article's title: " + req.body.title + "<br>";
 	log += "The author: " + req.body.author + "<br>";
+	log += "The url: " + req.body.url + "<br>";
 	log += "The texts you enter: " + req.body.description + "<br>";
 
 	py.stdout.on('data', function(data){

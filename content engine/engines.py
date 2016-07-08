@@ -93,7 +93,7 @@ class ContentEngine(object):
         for j in range(num):
             for index, row in ds.iterrows():
                 if str(row['id']) == results[j][0]:
-                    prediction = "<br>NO." + str(j) + " : " + str(row['title']).decode('utf-8') + " similarity score: " + str(results[j][1]) + "<br>"
+                    prediction = "<br>NO." + str(j) + " : " + str(row['title']).decode('utf-8') + "<br>similarity score: " + str(results[j][1]) + "<br>url: " + str(row['url']).decode('utf-8') + "<br><br>"
                     predictions.append(prediction)
 
         info(predictions)

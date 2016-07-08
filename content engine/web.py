@@ -52,13 +52,14 @@ def update():
     title = request.data.get('title')
     author = request.data.get('author')
     date = request.data.get('date')
+    url = request.data.get('url')
     content = request.data.get('content')
     if content and len(content) > 100:
         with open('backup.csv') as source:
             reader = csv.DictReader(source.read().splitlines())
             # return "number of row: " + str(len(list(reader))) # return the number of rows inside backup.csv, used as next index.
             rowid = str(len(list(reader)))
-            newrow = [rowid, title, author, date, content]
+            newrow = [rowid, title, author, date, url, content]
             with open('backup.csv', 'a') as target:
                 writer = csv.writer(target)
                 writer.writerow(newrow)
