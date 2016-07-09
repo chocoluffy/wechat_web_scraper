@@ -79,3 +79,9 @@ Use TextBlob as a wrapper API for Google translation. Simple `pip install -U tex
 
 Check [this post](https://docs.python.org/2/library/csv.html) for more information.
 
+## Trouble Shooting
+
+### backup.csv format
+
+After backup.csv is complete, avoid directly editing backup.csv file, any direct deleting might potentially change backup.csv format, use `git reset --hard HEAD` to rollback to previous version. 
+
