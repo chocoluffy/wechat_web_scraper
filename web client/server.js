@@ -8,6 +8,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //app.use(express.bodyParser());
 
+app.get('/ada', function(req, res){
+	res.sendFile('index.html', { root : __dirname});
+});
+
 
 app.post('/ada', function(req, res) {
 	//start.js
@@ -39,8 +43,8 @@ app.post('/ada', function(req, res) {
 
 });
 
-app.listen(8080, function() {
-  console.log('Server running at http://127.0.0.1:8080/');
+app.listen(5001, function() {
+  console.log('Server running at http://127.0.0.1:5001/');
 });
 
 /*
