@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var request = require('request');
 var app     = express();
 
 //Note that in version 4 of express, express.bodyParser() was
@@ -15,28 +16,58 @@ app.get('/ada', function(req, res){
 
 app.post('/ada', function(req, res) {
 	//start.js
-	var spawn = require('child_process').spawn,
-	    py    = spawn('python', ['translate.py']),
-	    // data = [1,2,3,4,5,6,7,8,9],
-	    data = [req.body.title, req.body.author, getDateTime(), req.body.url, req.body.description]
-	    resultString = '',
-	    log = '';
+	// var spawn = require('child_process').spawn,
+	//     py    = spawn('python', ['translate.py']),
+	//     
+	// var data = [req.body.title, req.body.author, getDateTime(), req.body.url, req.body.description],
+	    // resultString = '',
+	    // log = '';
+	    //
+	var title = req.body.title,
+		author = req.body.author,
+		date = getDateTime(),
+		url = req.body.url,
+		content = req.body.description;
 
 	log += "The article's title: " + req.body.title + "<br>";
 	log += "The author: " + req.body.author + "<br>";
 	log += "The url: " + req.body.url + "<br>";
 	// log += "The texts you enter: " + req.body.description + "<br>";  // for a long post, it may seems redundant.
 
-	py.stdout.on('data', function(data){
-	  resultString += data.toString();
-	});
-	py.stdout.on('end', function(){
-	  // console.log('Translated texts: ', resultString);
-	  log += resultString;
-	  res.send(log);
-	});
-	py.stdin.write(JSON.stringify(data));
-	py.stdin.end();
+
+	/*
+	  Using node's request to send GET and POST request directly to python server.
+	 */
+	request.post('http://localhost:5000/update',
+		{ headers: {'X-API-TOKEN' : 'FOOBAR1'},
+		  form: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content})
+		}, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+        }
+    });
+
+	// var logging = function(result, msg){
+	// 	result += msg;
+	// 	result += "<br>";
+	// 	return result;
+	// };
+
+	// log = logging(log, )
+
+	/*
+	  Using child process to call python scripts from local. But not working on EC2.
+	 */
+	// py.stdout.on('data', function(data){
+	//   resultString += data.toString();
+	// });
+	// py.stdout.on('end', function(){
+	//   // console.log('Translated texts: ', resultString);
+	//   log += resultString;
+	//   res.send(log);
+	// });
+	// py.stdin.write(JSON.stringify(data));
+	// py.stdin.end();
 
 
 
