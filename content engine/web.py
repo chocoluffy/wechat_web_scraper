@@ -1,6 +1,7 @@
 from flask.ext.api import FlaskAPI
 from flask import request, current_app, abort
 from functools import wraps
+from textblob.blob import TextBlob
 import csv
 
 app = FlaskAPI(__name__)
@@ -17,6 +18,7 @@ def token_auth(f):
 
 def toUTF(text):
     return text.encode('utf-8')
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -52,17 +54,23 @@ def train():
 @app.route('/update')
 @token_auth
 def update():
-    title = request.data.get('title')
-    author = request.data.get('author')
+    title = request.data.get('title').encode('utf-8')
+    author = request.data.get('author').encode('utf-8')
     date = request.data.get('date')
-    url = request.data.get('url')
-    content = request.data.get('content')
+    url = request.data.get('url').encode('utf-8')
+    ch_content = request.data.get('content') # in ec2 version, this part is in Chinese.
+
+    # translate content into English.
+    chinese_blob = TextBlob(ch_content)
+    content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
+
     if content and len(content) > 100:
         with open('backup.csv') as source:
             reader = csv.DictReader(source.read().splitlines())
             # return "number of row: " + str(len(list(reader))) # return the number of rows inside backup.csv, used as next index.
             rowid = str(len(list(reader)))
-            newrow = map(toUTF, [rowid, title, author, date, url, content])
+            # newrow = map(toUTF, [rowid, title, author, date, url, content])
+            newrow = [rowid, title, author, date, url, content]
             with open('backup.csv', 'a') as target:
                 writer = csv.writer(target)
                 writer.writerow(newrow)

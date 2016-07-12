@@ -36,6 +36,11 @@ app.post('/ada', function(req, res) {
 	log += "The url: " + req.body.url + "<br>";
 	// log += "The texts you enter: " + req.body.description + "<br>";  // for a long post, it may seems redundant.
 
+	var logging = function(result, msg){
+		result += msg;
+		result += "<br>";
+		return result;
+	};
 
 	/*
 	  Using node's request to send GET and POST request directly to python server.
@@ -47,17 +52,44 @@ app.post('/ada', function(req, res) {
 		json: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content}
 		}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body);
+            // console.log(body);
+            log = logging(log, body);
+
+            /*
+              Sending training request.
+             */ 
+            request({ 
+				url: 'http://localhost:5000/train',
+				method: 'GET',
+				headers: {'X-API-TOKEN' : 'FOOBAR1'},
+				json: {'data-url': 'backup.csv'}
+				}, function (error, response, body) {
+				console.log(error);
+		        if (!error && response.statusCode == 200) {
+		            // console.log(body);
+		            log = logging(log, body);
+
+		            /*
+		              Sending predicting request.
+		             */
+		            request({ 
+						url: 'http://localhost:5000/predict',
+						method: 'POST',
+						headers: {'X-API-TOKEN' : 'FOOBAR1'},
+						json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv'}
+						}, function (error, response, body) {
+				        if (!error && response.statusCode == 200) {
+				            // console.log(body);
+				            log = logging(log, body);
+				            res.send(log);
+				        }
+				    });
+		        }
+		    });
         }
     });
 
-	// var logging = function(result, msg){
-	// 	result += msg;
-	// 	result += "<br>";
-	// 	return result;
-	// };
 
-	// log = logging(log, )
 
 	/*
 	  Using child process to call python scripts from local. But not working on EC2.
