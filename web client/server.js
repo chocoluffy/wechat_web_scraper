@@ -29,6 +29,8 @@ app.post('/ada', function(req, res) {
 		url = req.body.url,
 		content = req.body.description;
 
+	var log = "";
+
 	log += "The article's title: " + req.body.title + "<br>";
 	log += "The author: " + req.body.author + "<br>";
 	log += "The url: " + req.body.url + "<br>";
@@ -38,9 +40,11 @@ app.post('/ada', function(req, res) {
 	/*
 	  Using node's request to send GET and POST request directly to python server.
 	 */
-	request.post('http://localhost:5000/update',
-		{ headers: {'X-API-TOKEN' : 'FOOBAR1'},
-		  form: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content})
+	request({ 
+		url: 'http://localhost:5000/update',
+		method: 'GET',
+		headers: {'X-API-TOKEN' : 'FOOBAR1'},
+		json: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content}
 		}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body);
