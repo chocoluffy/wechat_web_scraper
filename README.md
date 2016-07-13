@@ -57,7 +57,7 @@ And for now(16.7.4), /selenium/ada.csv contains urls <s>that are repetitive</s> 
 
 ✔️(2016.7.6)Build a simple web client with node.js and create a sub process that runs with python script that translates it into english.
 
-- Host it on AWS, airloft.org
+✔️- Host it on AWS, airloft.org
 
 - A fancier UI?
 
