@@ -57,11 +57,15 @@ And for now(16.7.4), /selenium/ada.csv contains urls <s>that are repetitive</s> 
 
 ✔️(2016.7.6)Build a simple web client with node.js and create a sub process that runs with python script that translates it into english.
 
-✔️- Host it on AWS, airloft.org
+✔️(2016.7.12)- Host it on AWS, airloft.org
 
 - A fancier UI?
 
 - Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
+
+- Extract and summerize a tag or short description from uploaded text. Then that's basically finding the highest weights from all sentences based on TF-IDF.
+
+- Allow tag2article, pharse2article matching, is it possible by just TF-IDF? or need other algorithm?
 
 ## Side Notes
 
