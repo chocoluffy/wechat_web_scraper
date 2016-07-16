@@ -45,9 +45,10 @@ def predict():
     password = request.data.get('password')
     if password == 'yushunzhe':
         return resultLst
-    else:
-        return "no result!!!!"
-
+    else:   ### If password is not correct, then delete the last row from csv file. A better way is to convert csv file into list, then write back, in which case, we need to remove all space and newline from text.
+        with open('backup.csv', 'r') as source:
+            posts = source.read().splitlines() # A list of all rows, with posts[-1] the most recent one.
+        
 
 @app.route('/train')
 @token_auth
