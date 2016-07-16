@@ -27,7 +27,8 @@ app.post('/ada', function(req, res) {
 		author = req.body.author,
 		date = getDateTime(),
 		url = req.body.url,
-		content = req.body.description;
+		content = req.body.description,
+		password = req.body.password;
 
 	var log = "";
 
@@ -76,7 +77,7 @@ app.post('/ada', function(req, res) {
 						url: 'http://localhost:5000/predict',
 						method: 'POST',
 						headers: {'X-API-TOKEN' : 'FOOBAR1'},
-						json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv'}
+						json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv', 'password': password}
 						}, function (error, response, body) {
 				        if (!error && response.statusCode == 200) {
 				            // console.log(body);

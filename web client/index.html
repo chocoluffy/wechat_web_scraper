@@ -5,8 +5,8 @@
    <title>Document</title>
 </head>
 <body>
-   <!-- need to use "http://airloft.org/ada/" to get it working on EC2. -->
-   <form action="http://airloft.org/ada/" method="post">
+   <!-- need to use "http://airloft.org/ada/" to get it working on EC2. Otherwise, use localhost:5001/ada/ instead!-->
+   <form action="http://localhost:5001/ada/" method="post">
          <fieldset>
             <label for="title">标题:</label>
             <input type="text" id="title" name="title" placeholder="输入公众号文章标题..." />
@@ -19,6 +19,9 @@
             <br />
             <label for="description">内容:</label>
             <textarea id="description" name="description" placeholder="输入文章内容..." rows="20" cols="50"></textarea>
+            <br />
+            <label for="password">密钥:</label>
+            <input type="text" id="password" name="password" placeholder="(optional)主要用于内部测试" />
             <br />
             <input type="submit" value="Create Profile" />
          </fieldset>
