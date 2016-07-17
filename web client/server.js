@@ -23,18 +23,18 @@ app.post('/ada', function(req, res) {
 	    // resultString = '',
 	    // log = '';
 	    //
-	var title = req.body.title,
-		author = req.body.author,
+	var title = req.body.title || "Unknown",
+		author = req.body.author || "Unknown",
 		date = getDateTime(),
-		url = req.body.url,
-		content = req.body.description,
-		password = req.body.password;
+		url = req.body.url || "Unknown",
+		content = req.body.description || "Unknown",
+		password = req.body.password || "Unknown";
 
 	var log = "";
 
-	log += "The article's title: " + req.body.title + "<br>";
-	log += "The author: " + req.body.author + "<br>";
-	log += "The url: " + req.body.url + "<br>";
+	log += "The article's title: " + title + "<br>";
+	log += "The author: " + author + "<br>";
+	log += "The url: " + url + "<br>";
 	// log += "The texts you enter: " + req.body.description + "<br>";  // for a long post, it may seems redundant.
 
 	var logging = function(result, msg){
@@ -55,43 +55,49 @@ app.post('/ada', function(req, res) {
 		url: 'http://localhost:5000/update',
 		method: 'GET',
 		headers: {'X-API-TOKEN' : 'FOOBAR1'},
-		json: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content}
+		json: {'title': title, 'author': author, 'date': date, 'url': url, 'content': content, 'password': password}
 		}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             // console.log(body);
-            log = logging(log, body);
+            if (body == "nothing"){
+            	log = logging(log, "<strong>By default, we won't accept short texts for now.</strong>");
+            	res.send(log);
+            }
+            else{
+	            log = logging(log, body);
 
-            /*
-              Sending training request.
-             */ 
-            request({ 
-				url: 'http://localhost:5000/train',
-				method: 'GET',
-				headers: {'X-API-TOKEN' : 'FOOBAR1'},
-				json: {'data-url': 'backup.csv'}
-				}, function (error, response, body) {
-				console.log(error);
-		        if (!error && response.statusCode == 200) {
-		            // console.log(body);
-		            log = logging(log, body);
+	            /*
+	              Sending training request.
+	             */ 
+	            request({ 
+					url: 'http://localhost:5000/train',
+					method: 'GET',
+					headers: {'X-API-TOKEN' : 'FOOBAR1'},
+					json: {'data-url': 'backup.csv'}
+					}, function (error, response, body) {
+					console.log(error);
+			        if (!error && response.statusCode == 200) {
+			            // console.log(body);
+			            log = logging(log, body);
 
-		            /*
-		              Sending predicting request.
-		             */
-		            request({ 
-						url: 'http://localhost:5000/predict',
-						method: 'POST',
-						headers: {'X-API-TOKEN' : 'FOOBAR1'},
-						json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv', 'password': password}
-						}, function (error, response, body) {
-				        if (!error && response.statusCode == 200) {
-				            // console.log(body);
-				            log = logging(log, body);
-				            res.send(log);
-				        }
-				    });
-		        }
-		    });
+			            /*
+			              Sending predicting request.
+			             */
+			            request({ 
+							url: 'http://localhost:5000/predict',
+							method: 'POST',
+							headers: {'X-API-TOKEN' : 'FOOBAR1'},
+							json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv', 'password': password}
+							}, function (error, response, body) {
+					        if (!error && response.statusCode == 200) {
+					            // console.log(body);
+					            log = logging(log, body);
+					            res.send(log);
+					        }
+					    });
+			        }
+			    });
+			}
         }
     });
 

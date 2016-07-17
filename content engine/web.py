@@ -78,6 +78,7 @@ def update():
     author = request.data.get('author').encode('utf-8')
     date = request.data.get('date')
     url = request.data.get('url').encode('utf-8')
+    password = request.data.get('password')
     ch_content = request.data.get('content') # in ec2 version, this part is in Chinese.
 
     # translate content into English.
@@ -95,9 +96,12 @@ def update():
                 writer = csv.writer(target)
                 writer.writerow(newrow)
                 # return newrow # instead of returning that new post(look redundant), show a successful meg just be fine!
-                return "Your post: <" + title + "> has been succesfully uploaded to databased!!!"
+                if password == 'yushunzhe':
+                    return "<strong>Your post: <" + title + "> has been succesfully uploaded to databased!!!</strong>"
+                else:
+                    return "<strong>Your post won't hurt database. You're in play mode.</strong>"
     else:
-        return "Just a reminder that it's successfully updated, while it won't modify the database for now."
+        return "nothing"
 
 
 
