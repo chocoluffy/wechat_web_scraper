@@ -27,7 +27,8 @@ app.post('/ada', function(req, res) {
 		author = req.body.author || "Unknown",
 		date = getDateTime(),
 		url = req.body.url || "Unknown",
-		content = req.body.description || "Unknown",
+		content = req.body.description || "未知", 
+		content = content + "哈", // Append Chinese characters to allow translation.
 		password = req.body.password || "Unknown";
 
 	var log = "";
