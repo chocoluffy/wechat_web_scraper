@@ -59,9 +59,11 @@ Next step, build a simple web client that allows users to upload a chunk of text
 
 ✔️(2016.7.12)Host it on AWS, airloft.org
 
-- A fancier UI?
+✔️(2016.7.16)Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
 
-- Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
+- Add field checking for forms, so that we allows users to upload empty field when in "playmode".
+
+- A fancier UI?
 
 - Extract and summerize a tag or short description from uploaded text. Then that's basically finding the highest weights from all sentences based on TF-IDF.
 
