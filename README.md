@@ -63,7 +63,7 @@ Next step, build a simple web client that allows users to upload a chunk of text
 
 ✔️(2016.7.17)Add field checking for forms, so that we allows users to upload empty field when in "playmode".
 
-- Allow short english text being uploaded and texts, prepared for twitter and facebook feeds.
+✔️(2016.7.17)Allow short english text being uploaded and texts, prepared for twitter and facebook feeds.
 
 - A fancier UI?
 
