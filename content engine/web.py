@@ -46,9 +46,21 @@ def predict():
     if password == 'yushunzhe':
         return resultLst
     else:   ### If password is not correct, then delete the last row from csv file. A better way is to convert csv file into list, then write back, in which case, we need to remove all space and newline from text.
+        sourceLst = []
         with open('backup.csv', 'r') as source:
-            posts = source.read().splitlines() # A list of all rows, with posts[-1] the most recent one.
-        
+            reader = csv.DictReader(source) # A list of all rows, with posts[-1] the most recent one.
+            for row in reader:
+                sourceLst.append(row)
+
+        with open('backup.csv', 'w') as target:
+            fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
+            writer = csv.DictWriter(target, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in sourceLst:
+                if row['id'] != str(len(list(sourceLst)) - 1):
+                    newrow = {'id': row['id'], 'title': row['title'], 'author': row['author'], 'date': row['date'], 'url': row['url'], 'content': row['content']}
+                    writer.writerow(newrow)
+        return resultLst
 
 @app.route('/train')
 @token_auth
