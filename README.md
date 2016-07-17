@@ -87,7 +87,9 @@ Check [this post](https://docs.python.org/2/library/csv.html) for more informati
 
 ### Manage process on EC2
 
-Using pm2 to manage node process, `pm2 start server.js --name="wechat"` to create a pm2 process, and `pm2 list` can list all live running process. Using screen to manage python process, `screen -S wechat` to create a new session in sshing, then run the python web server with `python web.py`, notice that in the case of my EC2, I have all python dependencies installed properly, then I don't have to activate my conda environment with `source activate <env>`, directly running python script should be fine. (using `conda install <package>` could be handy or messy depending on cases.). Then do "CTRL + A, D" to escape from that session, use `screen -ls` to list all live sessions on that time. 
+Using pm2 to manage node process, `pm2 start server.js --name="wechat"` to create a pm2 process, and `pm2 list` can list all live running process. With `pm2 delete <process name>\<process id>` to delete registered process.
+
+Using screen to manage python process, `screen -S wechat` to create a new session in sshing, then run the python web server with `python web.py`, notice that in the case of my EC2, I have all python dependencies installed properly, then I don't have to activate my conda environment with `source activate <env>`, directly running python script should be fine. (using `conda install <package>` could be handy or messy depending on cases.). Then do "CTRL + A, D" to escape from that session, use `screen -ls` to list all live sessions on that time. When resuming to detached session, use `screen -r <session name>\<session id>`. 
 
 One more thing to be noticed, redis server should be alive when this program is running, check your port 6379, it should be taken up by default by redis server.
 
