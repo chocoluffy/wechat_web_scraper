@@ -57,11 +57,13 @@ And for now(16.7.4), /selenium/ada.csv contains urls <s>that are repetitive</s> 
 
 ✔️(2016.7.6)Build a simple web client with node.js and create a sub process that runs with python script that translates it into english.
 
-- Host it on AWS, airloft.org
+✔️(2016.7.12)Host it on AWS, airloft.org
 
 - A fancier UI?
 
-- Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
+✔️(2016.7.16)Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
+
+- Add field checking for forms, so that we allows users to upload empty field when in "playmode".
 
 ## Side Notes
 
