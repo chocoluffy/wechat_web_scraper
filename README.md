@@ -61,7 +61,9 @@ Next step, build a simple web client that allows users to upload a chunk of text
 
 ✔️(2016.7.16)Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
 
-- Add field checking for forms, so that we allows users to upload empty field when in "playmode".
+✔️(2016.7.17)Add field checking for forms, so that we allows users to upload empty field when in "playmode".
+
+- Allow short english text being uploaded and texts, prepared for twitter and facebook feeds.
 
 - A fancier UI?
 
