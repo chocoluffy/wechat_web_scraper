@@ -92,7 +92,7 @@ app.post('/ada', function(req, res) {
 							}, function (error, response, body) {
 					        if (!error && response.statusCode == 200) {
 					            // console.log(body);
-					            log = logging(log, body);
+					            log = logging(log, JSON.stringify(body));
 					            console.log(body);
 					            res.send(log);
 					        }
