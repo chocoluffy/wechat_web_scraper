@@ -85,7 +85,7 @@ def update():
     chinese_blob = TextBlob(ch_content)
     content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
 
-    if content and len(content) > 100:
+    if content and len(content) > 10:
         with open('backup.csv') as source:
             reader = csv.DictReader(source.read().splitlines())
             # return "number of row: " + str(len(list(reader))) # return the number of rows inside backup.csv, used as next index.
