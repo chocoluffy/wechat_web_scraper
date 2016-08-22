@@ -1,7 +1,7 @@
 import pandas as pd
 import time
 import redis
-from flask import current_app
+from flask import current_app, jsonify
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
@@ -90,14 +90,21 @@ class ContentEngine(object):
             self.search(ds, results, i)
 
         predictions = []
+        matches = {}
         for j in range(num):
             for index, row in ds.iterrows():
                 if str(row['id']) == results[j][0]:
+                    matches[str(j)] = {}
+                    matches[str(j)]['title'] = str(row['title']).decode('utf-8')
+                    matches[str(j)]['score'] = str(results[j][1])
+                    matches[str(j)]['url'] = str(row['url']).decode('utf-8')
+                    # Logging info.
                     prediction = "<br>NO." + str(j) + " : " + str(row['title']).decode('utf-8') + "<br>similarity score: " + str(results[j][1]) + "<br>url: " + str(row['url']).decode('utf-8') + "<br><br>"
                     predictions.append(prediction)
 
         info(predictions)
-        return "<br>".join(predictions)
+        # return "<br>".join(predictions)
+        return jsonify(**matches)
 
 
 

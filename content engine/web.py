@@ -39,6 +39,7 @@ def predict():
         return []
     
     # For now, only returns a nested list of the top num of post and their scores, need more detailed loggin info!
+    # Note that resultLst is json now. A dictionary that contains top match being jsonify.
     resultLst = content_engine.predict(str(realID), int(num_predictions), data_url)
 
     # If user gives uncorrect password, then just delete the last row from csv file.
