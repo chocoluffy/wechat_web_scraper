@@ -63,7 +63,10 @@ And for now(16.7.4), /selenium/ada.csv contains urls <s>that are repetitive</s> 
 
 ✔️(2016.7.16)Add a play mode. Allow user to try their own texts with our database, just not updated database. Add an auth like "author has to be ada" e.t.c.
 
-- Add field checking for forms, so that we allows users to upload empty field when in "playmode".
+✔️ Add field checking for forms, so that we allows users to upload empty field when in "playmode".
+
+✔️(2016.8.21)Host a POST api request, that allows user inputs a short phase and return the most similar articles in json format.
+
 
 ## Side Notes
 
