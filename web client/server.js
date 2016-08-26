@@ -3,6 +3,14 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app     = express();
 
+/*
+  Define backup file with new stamp, everytime change new stamp, others should stay unchanged.
+ */
+var new_stamp = "160825";
+
+var base_dir = "./data/";
+var backup = base_dir + "backup" + new_stamp + ".csv";
+
 //Note that in version 4 of express, express.bodyParser() was
 //deprecated in favor of a separate 'body-parser' module.
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -74,7 +82,7 @@ app.post('/ada', function(req, res) {
 					url: 'http://localhost:5000/train',
 					method: 'GET',
 					headers: {'X-API-TOKEN' : 'FOOBAR1'},
-					json: {'data-url': 'backup.csv'}
+					json: {'data-url': backup}
 					}, function (error, response, body) {
 					console.log(error);
 			        if (!error && response.statusCode == 200) {
@@ -88,7 +96,7 @@ app.post('/ada', function(req, res) {
 							url: 'http://localhost:5000/predict',
 							method: 'POST',
 							headers: {'X-API-TOKEN' : 'FOOBAR1'},
-							json: {'item': '-1', 'num': 3, 'data-url': 'backup.csv', 'password': password}
+							json: {'item': '-1', 'num': 3, 'data-url': backup, 'password': password}
 							}, function (error, response, body) {
 					        if (!error && response.statusCode == 200) {
 					            // console.log(body);
