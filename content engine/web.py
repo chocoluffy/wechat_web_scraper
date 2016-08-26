@@ -7,6 +7,12 @@ import csv
 app = FlaskAPI(__name__)
 app.config.from_object('settings')
 
+# Everytime should only change new_stamp and stay others unchanged. 
+new_stamp = '160825'
+
+
+base_dir = './data/'
+backup = base_dir + 'backup' + new_stamp + '.csv'
 
 def token_auth(f):
     @wraps(f)
@@ -29,7 +35,7 @@ def predict():
     realID = item
     # if item == -1, means prediction for the last row.
     if item == '-1':
-        with open('backup.csv') as source:
+        with open(backup) as source:
             reader = csv.DictReader(source.read().splitlines())
             realID = str(len(list(reader)) - 1)
 
@@ -48,12 +54,12 @@ def predict():
         return resultLst
     else:   ### If password is not correct, then delete the last row from csv file. A better way is to convert csv file into list, then write back, in which case, we need to remove all space and newline from text.
         sourceLst = []
-        with open('backup.csv', 'r') as source:
+        with open(backup, 'r') as source:
             reader = csv.DictReader(source) # A list of all rows, with posts[-1] the most recent one.
             for row in reader:
                 sourceLst.append(row)
 
-        with open('backup.csv', 'w') as target:
+        with open(backup, 'w') as target:
             fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
             writer = csv.DictWriter(target, fieldnames=fieldnames)
             writer.writeheader()
@@ -87,13 +93,13 @@ def update():
     content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
 
     if content and len(content) > 10:
-        with open('backup.csv') as source:
+        with open(backup) as source:
             reader = csv.DictReader(source.read().splitlines())
             # return "number of row: " + str(len(list(reader))) # return the number of rows inside backup.csv, used as next index.
             rowid = str(len(list(reader)))
             # newrow = map(toUTF, [rowid, title, author, date, url, content])
             newrow = [rowid, title, author, date, url, content]
-            with open('backup.csv', 'a') as target:
+            with open(backup, 'a') as target:
                 writer = csv.writer(target)
                 writer.writerow(newrow)
                 # return newrow # instead of returning that new post(look redundant), show a successful meg just be fine!
