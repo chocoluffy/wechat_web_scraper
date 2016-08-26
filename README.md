@@ -116,3 +116,22 @@ request.post('http://airloft.org/ada/', {form:{description: inputText}}, functio
     });
 ```
 
+### Some interesting stats
+
+What threshold confidence value will be appropriate to use to identify reliable articles?
+
+- 期末复习资料
+
+"score": "0.0151775943408",
+"title": "                        UT助手数据更新：Final安排为何如此坑爹                     ",
+
+- 怎么准备实习
+"score": "0.0158450176669",
+"title": "                        【专访】聊聊关于PEY的那些事儿                     ",
+
+
+
+
+
+
+
