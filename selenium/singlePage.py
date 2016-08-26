@@ -45,14 +45,21 @@ def url2content(url):
 			'combined_string': combined_string
 			}
 
+## Define old stamp and new stamp followed by file name. Afterwards, any changes should only change this new_stamp, other parts should stay unchanged.
+new_stamp = '160825'
+
+base_dir = './data/'
+new_ada = base_dir + 'ada' + new_stamp + '.csv'
+new_ada_content = base_dir + 'ada-content' + new_stamp + '.csv'
+new_ada_content_en = base_dir + 'ada-content-en' + new_stamp + '.csv'
 
 ##  Connect with ada.csv to port from url to texts
-with open('ada-content.csv', 'w') as target:
+with open(new_ada_content, 'w') as target:
     fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
     writer = csv.DictWriter(target, fieldnames=fieldnames)
     writer.writeheader()
 
-    with open('ada.csv') as source:
+    with open(new_ada) as source:
 	    reader = csv.DictReader(source)
 	    for row in reader:
 	    	combo = url2content(row['url'])
@@ -61,12 +68,12 @@ with open('ada-content.csv', 'w') as target:
 
 
 ### Connect with ada-content.csv to translate content to english version.	
-with open('ada-content-en.csv', 'w') as target:
+with open(new_ada_content_en, 'w') as target:
     fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
     writer = csv.DictWriter(target, fieldnames=fieldnames)
     writer.writeheader()
 
-    with open('ada-content.csv') as source:
+    with open(new_ada_content) as source:
 	    reader = csv.DictReader(source.read().splitlines())
 	    for row in reader:
 	    	chinese_blob = TextBlob(row['content'].decode('utf-8'))
