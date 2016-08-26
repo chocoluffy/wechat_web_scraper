@@ -93,5 +93,26 @@ After backup.csv is complete, avoid directly editing backup.csv file, any direct
 ### how to use this api
 
 Make a POST request to `http://airloft.org/ada/` with form key\pair values. For more details, see image below.
+
 ![example](http://ww4.sinaimg.cn/large/65e4f1e6gw1f72cadqz7tj21kw119n74.jpg)
+
+In order to hit the endpoint from nodejs application, especially using request module, we need to pay attention to two things:
+-  In request module, `body` parameter should be in string or format. Thus, if we have a json or javascript object, we can use `JSON.stringify(hash)` to transform it into string and feed it to request.
+- And by default, request module sends the data in `x-www-form-urlencoded` format, which is the same as what my here "web client" server.js receives, so, such code snippet can do the tricks:
+
+```javascript
+request.post('http://airloft.org/ada/', {form:{description: inputText}}, function (err, res, body) {
+        if (JSON.parse(body)["0"]) {
+        	// callback is the function that returns to wechat user.
+            callback([
+                {
+                    title: JSON.parse(body)["0"]["title"],
+                    url: JSON.parse(body)["0"]["url"]
+                }
+            ]);
+        } else {
+            callback('cannot find article');
+        }
+    });
+```
 
