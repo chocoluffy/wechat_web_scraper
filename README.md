@@ -18,7 +18,7 @@ Install selenium, run `pip install selenium`, and chromeDriver.
 
 ### content engine
 
-Install python library dependency in virtual environment using "conda", and redis by `brew install redis`.
+Install python library dependency in virtual environment using "conda", and redis by `brew install redis`. In order to use "flask.ext.api", we need also install Flask-API by `pip install Flask-API`.
 
 ## Logs
 
