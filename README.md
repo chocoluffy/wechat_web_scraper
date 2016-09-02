@@ -82,6 +82,8 @@ Use TextBlob as a wrapper API for Google translation. Simple `pip install -U tex
 
 As an alternative, if TextBlob is down, we may switch to [translate](https://pypi.python.org/pypi/translate/) library.
 
+Look at [translate](https://github.com/terryyin/google-translate-python) library for more information. Notice that in its issue("Need to encode input as utf-8"), we need to use like `content = str(translator.translate(ch_content.encode('utf-8')))` to get the translation working.
+
 ### Read & Write files with .csv
 
 Check [this post](https://docs.python.org/2/library/csv.html) for more information.
