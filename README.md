@@ -88,6 +88,12 @@ Look at [translate](https://github.com/terryyin/google-translate-python) library
 
 Check [this post](https://docs.python.org/2/library/csv.html) for more information.
 
+### How to improve accuracy?
+
+Stopwords removal won't help a lot for tfidf, since those stopwords are already high-frequent words and won't be considered as keywords. However, stemming is a good choice to try.
+
+But stopwords and stemming will help for user input! since user usually inputs a short text, which won't have duplicate words, thus each words may have higher weighted value, which causes low accuracy.
+
 ## Trouble Shooting
 
 ### backup.csv format
@@ -133,11 +139,11 @@ What threshold confidence value will be appropriate to use to identify reliable 
 - 期末复习资料
 
 "score": "0.0151775943408",
-"title": "                        UT助手数据更新：Final安排为何如此坑爹                     ",
+"title": "UT助手数据更新：Final安排为何如此坑爹",
 
 - 怎么准备实习
 "score": "0.0158450176669",
-"title": "                        【专访】聊聊关于PEY的那些事儿                     ",
+"title": "【专访】聊聊关于PEY的那些事儿",
 
 
 
