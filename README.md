@@ -94,6 +94,12 @@ Check [this post](https://docs.python.org/2/library/csv.html) for more informati
 
 After backup.csv is complete, avoid directly editing backup.csv file, any direct deleting might potentially change backup.csv format, use `git reset --hard HEAD` to rollback to previous version, do notice that such operation will discard all file changes to the previous committed version. If we want to simply discard changes on one single file, then just do `git checkout <../content\ engine/backup.csv>`.
 
+Sometimes, if you see the result giving a 1.0 similarity match, that's probably because you may accidentally write some short texts into backup.csv file. Just edit that file and remove irrelevant info should be fine.
+
+### start redis server
+
+Please remember to start redis server before starting python server. For detailed information, checkout instructions above.
+
 ### how to use this api
 
 Make a POST request to `http://airloft.org/ada/` with form key\pair values. For more details, see image below.
