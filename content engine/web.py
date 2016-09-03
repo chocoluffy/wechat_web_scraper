@@ -3,6 +3,7 @@ from flask import request, current_app, abort
 from functools import wraps
 from textblob.blob import TextBlob
 from translate import Translator
+# from nltk.corpus import stopwords
 import csv
 
 app = FlaskAPI(__name__)
@@ -99,7 +100,10 @@ def update():
     content = str(translator.translate(ch_content.encode('utf-8'))) # "translate" module needs content input be in utf-8.
 
     ### Do language sanitizing here: [1] remove stopwords. [2] stemming.
-    
+    # stop = set(stopwords.words('english'))
+    # content = " ".join([i for i in content.lower().split() if i not in stop])
+    # content = content
+    # print content
 
 
     if content and len(content) > 10:
