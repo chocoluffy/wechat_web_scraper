@@ -55,7 +55,7 @@ app.post('/ada', function(req, res) {
 	/*
 	  Before making request to /update, make sure stripping all newline characters from content.
 	 */
-	content = content.replace(/\s+/g, '');
+	// content = content.replace(/\s+/g, '');
 
 	/*
 	  Using node's request to send GET and POST request directly to python server.

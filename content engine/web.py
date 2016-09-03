@@ -2,6 +2,7 @@ from flask.ext.api import FlaskAPI
 from flask import request, current_app, abort
 from functools import wraps
 from textblob.blob import TextBlob
+from translate import Translator
 import csv
 
 app = FlaskAPI(__name__)
@@ -88,9 +89,18 @@ def update():
     password = request.data.get('password')
     ch_content = request.data.get('content') # in ec2 version, this part is in Chinese.
 
-    # translate content into English.
-    chinese_blob = TextBlob(ch_content)
-    content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
+    # do some preprocess on user input here
+    ch_content = "".join(ch_content.splitlines())
+    # print ch_content
+    # translate content into English using TextBlob, use "translate" when textblob is unavailable.
+    # chinese_blob = TextBlob(ch_content)
+    translator= Translator(to_lang="en", from_lang="zh")
+    # content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
+    content = str(translator.translate(ch_content.encode('utf-8'))) # "translate" module needs content input be in utf-8.
+
+    ### Do language sanitizing here: [1] remove stopwords. [2] stemming.
+    
+
 
     if content and len(content) > 10:
         with open(backup) as source:

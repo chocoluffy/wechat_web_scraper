@@ -18,7 +18,7 @@ Install selenium, run `pip install selenium`, and chromeDriver.
 
 ### content engine
 
-Install python library dependency in virtual environment using "conda", and redis by `brew install redis`.
+Install python library dependency in virtual environment using "conda", and redis by `brew install redis`. In order to use "flask.ext.api", we need also install Flask-API by `pip install Flask-API`.
 
 ## Logs
 
@@ -79,6 +79,10 @@ Conda is also an environment manager application. A conda environment is a direc
 ### TextBlob as NL translation
 
 Use TextBlob as a wrapper API for Google translation. Simple `pip install -U textblob` for installation. Try "Goslate" library, but it imposes an API query limit, which causes some inconvienience. Check [this post](https://pypi.python.org/pypi/textblob) for more information.
+
+As an alternative, if TextBlob is down, we may switch to [translate](https://pypi.python.org/pypi/translate/) library.
+
+Look at [translate](https://github.com/terryyin/google-translate-python) library for more information. Notice that in its issue("Need to encode input as utf-8"), we need to use like `content = str(translator.translate(ch_content.encode('utf-8')))` to get the translation working.
 
 ### Read & Write files with .csv
 
