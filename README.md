@@ -92,7 +92,12 @@ Check [this post](https://docs.python.org/2/library/csv.html) for more informati
 
 Stopwords removal won't help a lot for tfidf, since those stopwords are already high-frequent words and won't be considered as keywords. However, stemming is a good choice to try.
 
-But stopwords and stemming will help for user input! since user usually inputs a short text, which won't have duplicate words, thus each words may have higher weighted value, which causes low accuracy.
+But stopwords and stemming will help for user input! since user usually inputs a short text, which won't have duplicate words, thus each words may have higher weighted value, which causes low accuracy. However, in practive, stopwards don't help a lot for accuracy, since those stopwords occur in most of the document!
+
+Next, several thoughts:
+
+- word2vec with tfidf score. From tfidf algorithm, we can get each word's score, and weight words to get sentence's vector.
+- gensim using LDA model. 
 
 ## Trouble Shooting
 
