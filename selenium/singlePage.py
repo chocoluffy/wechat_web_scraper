@@ -80,8 +80,9 @@ with open(new_ada_content_en, 'w') as target:
     with open(new_ada_content) as source:
 	    reader = csv.DictReader(source.read().splitlines())
 	    for row in reader:
-	    	chinese_blob = TextBlob(row['content'].decode('utf-8'))
-	    	en_content = chinese_blob.translate(from_lang="zh-CN", to='en')
+	    	# chinese_blob = TextBlob(row['content'].decode('utf-8'))
+	    	# en_content = chinese_blob.translate(from_lang="zh-CN", to='en')
+	    	en_content = translator.translate(row['content']).encode('utf-8')
 	    	writer.writerow({'id': row['id'], 'title': row['title'], 'author': row['author'], 'date': row['date'], 'url': row['url'], 'content': en_content})
 	    	print 'Processing translator NO. ' + str(row['id'])
 
