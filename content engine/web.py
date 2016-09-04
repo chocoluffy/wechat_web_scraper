@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask.ext.api import FlaskAPI
 from flask import request, current_app, abort
 from functools import wraps
@@ -97,6 +98,7 @@ def update():
     # chinese_blob = TextBlob(ch_content)
     translator= Translator(to_lang="en", from_lang="zh")
     # content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
+    # content = str(translator.translate(ch_content.encode('utf-8'))) # "translate" module needs content input be in utf-8.
     content = str(translator.translate(ch_content.encode('utf-8'))) # "translate" module needs content input be in utf-8.
 
     ### Do language sanitizing here: [1] remove stopwords. [2] stemming.
