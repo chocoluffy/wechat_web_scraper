@@ -2,7 +2,8 @@ import urllib
 from bs4 import BeautifulSoup
 import re
 import csv
-from textblob.blob import TextBlob
+# from textblob.blob import TextBlob
+from translate import Translator
 
 ### Return compressed nested texts from page.
 def url2content(url):
@@ -67,7 +68,10 @@ with open(new_ada_content, 'w') as target:
 	    	print 'Processing scraper NO.' + str(row['id'])
 
 
-### Connect with ada-content.csv to translate content to english version.	
+## Initialize translator.
+translator= Translator(to_lang="en", from_lang="zh")
+
+## Connect with ada-content.csv to translate content to english version.	
 with open(new_ada_content_en, 'w') as target:
     fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
     writer = csv.DictWriter(target, fieldnames=fieldnames)
