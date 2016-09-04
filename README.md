@@ -99,19 +99,7 @@ Next, several thoughts:
 - word2vec with tfidf score. From tfidf algorithm, we can get each word's score, and weight words to get sentence's vector.
 - gensim using LDA model. 
 
-## Trouble Shooting
-
-### backup.csv format
-
-After backup.csv is complete, avoid directly editing backup.csv file, any direct deleting might potentially change backup.csv format, use `git reset --hard HEAD` to rollback to previous version, do notice that such operation will discard all file changes to the previous committed version. If we want to simply discard changes on one single file, then just do `git checkout <../content\ engine/backup.csv>`.
-
-Sometimes, if you see the result giving a 1.0 similarity match, that's probably because you may accidentally write some short texts into backup.csv file. Just edit that file and remove irrelevant info should be fine.
-
-### start redis server
-
-Please remember to start redis server before starting python server. For detailed information, checkout instructions above.
-
-### how to use this api
+### How to use this api
 
 Make a POST request to `http://airloft.org/ada/` with form key\pair values. For more details, see image below.
 
@@ -124,7 +112,7 @@ In order to hit the endpoint from nodejs application, especially using request m
 ```javascript
 request.post('http://airloft.org/ada/', {form:{description: inputText}}, function (err, res, body) {
         if (JSON.parse(body)["0"]) {
-        	// callback is the function that returns to wechat user.
+            // callback is the function that returns to wechat user.
             callback([
                 {
                     title: JSON.parse(body)["0"]["title"],
@@ -137,7 +125,23 @@ request.post('http://airloft.org/ada/', {form:{description: inputText}}, functio
     });
 ```
 
-### Some interesting stats
+## Trouble Shooting
+
+### backup.csv format
+
+After backup.csv is complete, avoid directly editing backup.csv file, any direct deleting might potentially change backup.csv format, use `git reset --hard HEAD` to rollback to previous version, do notice that such operation will discard all file changes to the previous committed version. If we want to simply discard changes on one single file, then just do `git checkout <../content\ engine/backup.csv>`.
+
+Sometimes, if you see the result giving a 1.0 similarity match, that's probably because you may accidentally write some short texts into backup.csv file. Just edit that file and remove irrelevant info should be fine.
+
+### start redis server
+
+Please remember to start redis server before starting python server. For detailed information, checkout instructions above.
+
+### Encoding error
+
+Sometimes, we get such error as "UnicodeEncodeError: 'ascii' codec can't encode character u'\xa0' in position 20: ordinal not in range(128)", basically, stop using `str()` to convert from unicode to encoded text / bytes. Solution working in my case: replace `str()` with `.encode('utf-8')`.
+
+## Some interesting stats
 
 What threshold confidence value will be appropriate to use to identify reliable articles?
 
