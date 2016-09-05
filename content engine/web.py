@@ -2,9 +2,8 @@
 from flask.ext.api import FlaskAPI
 from flask import request, current_app, abort
 from functools import wraps
-from textblob.blob import TextBlob
+# from textblob.blob import TextBlob
 from translate import Translator
-# from nltk.corpus import stopwords
 import csv
 
 app = FlaskAPI(__name__)
@@ -96,7 +95,7 @@ def update():
     # print ch_content
     # translate content into English using TextBlob, use "translate" when textblob is unavailable.
     # chinese_blob = TextBlob(ch_content)
-    translator= Translator(to_lang="en", from_lang="zh")
+    # translator= Translator(to_lang="en", from_lang="zh")
     # content = str(chinese_blob.translate(from_lang="zh-CN", to="en"))
     # content = str(translator.translate(ch_content.encode('utf-8'))) # "translate" module needs content input be in utf-8.
     content = translator.translate(ch_content.encode('utf-8')).encode('utf-8') # "translate" module needs content input be in utf-8.
