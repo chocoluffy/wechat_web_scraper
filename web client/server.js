@@ -111,26 +111,19 @@ app.post('/ada', function(req, res) {
 			}
         }
     });
+});
 
-
-
-	/*
-	  Using child process to call python scripts from local. But not working on EC2.
-	 */
-	// py.stdout.on('data', function(data){
-	//   resultString += data.toString();
-	// });
-	// py.stdout.on('end', function(){
-	//   // console.log('Translated texts: ', resultString);
-	//   log += resultString;
-	//   res.send(log);
-	// });
-	// py.stdin.write(JSON.stringify(data));
-	// py.stdin.end();
-
-
-
-
+app.post('/wordvec', function(req, res) {
+	var content = req.body.content || "未知";
+	request({ 
+		url: 'http://localhost:5000/wordvec',
+		method: 'GET',
+		headers: {'X-API-TOKEN' : 'FOOBAR1'},
+		json: {'content': content}
+		}, function (error, response, body) {
+			res.send(body);
+		}
+	);
 });
 
 app.listen(5001, function() {
