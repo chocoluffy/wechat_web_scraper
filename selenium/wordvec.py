@@ -6,9 +6,18 @@ import csv
 import requests
 import json
 import re
+from nltk import word_tokenize, pos_tag
+import gensim
+from timeit import default_timer as timer
 
 ### Google translate api credentials.
 token = 'AIzaSyBZx4GANyssAEQdVlG2XuSeY-8vUsxRkBw'
+
+### Initializa gensim word2vec model.
+start = timer()
+model = gensim.models.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+end = timer()
+print 'Loading word2vec model takes: ', (end - start)
 
 ### Return compressed nested texts from page.
 def url2content(url):
@@ -94,7 +103,7 @@ regex = re.compile('[^a-zA-Z]')
 
 ### Given translated English title, [1] text sanitization [2] NLTK tagging [3] Word2Vec inferrence
 with open(new_ada_content_en_vec, 'w') as target:
-    fieldnames = ['id', 'title', 'author', 'date', 'url', 'content']
+    fieldnames = ['id', 'title', 'tags' , 'wordvec', 'author', 'date', 'url', 'content']
     writer = csv.DictWriter(target, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -102,13 +111,52 @@ with open(new_ada_content_en_vec, 'w') as target:
 	    reader = csv.DictReader(source.read().splitlines())
 	    for row in reader:
 	    	
-	    	# [1] text sanitization; then remove duplicate spaces into one.
+	    	# [1] Text sanitization; then remove duplicate spaces into one.
 	    	sani_title = regex.sub(' ', row['title'])
 	    	sani_title = re.sub(' +',' ',sani_title).strip()
 
-	    	print sani_title
-	    	writer.writerow({'id': row['id'], 'title': sani_title, 'author': row['author'], 'date': row['date'], 'url': row['url'], 'content': row['content']})
-	    	# print 'Processing vec NO. ' + str(row['id'])
+	    	# [2] NLTK tagging, grab the noun of the sentence.
+	    	results = filter(lambda (a,b): b in ['NN', 'NNS', 'NNP', 'NNPS'] and len(a) > 3, pos_tag(word_tokenize(sani_title)))
+	    	
+	    	# [3] Given results, filter unimportant pair.
+	    	# - keywords must more than three characters. 
+	    	# - all lower case.
+	    	# - if exist several "NNP", only get the first one.
+	    	# 
+	    	# Notice: tags list can be empty!
+	    	
+	    	def get_first_nnp(pair_lst):
+	    		nnp_counter = 0
+	    		new_lst = []
+	    		for word, tag in pair_lst:
+	    			if tag == 'NNP' and nnp_counter < 1:
+	    				new_lst.append((word.lower(), tag))
+	    				nnp_counter += 1
+	    			elif tag in ['NN', 'NNS', 'NNPS']:
+	    				new_lst.append((word.lower(), tag))
+	    		return new_lst
+
+	    	def get_vector(pair_lst):
+	    		# pass through model, and sum up all vector.
+	    		vec_lst = []
+	    		if pair_lst:
+		    		for word, tag in pair_lst:
+		    			if word in model:
+		    				vec_lst.append(model[word])
+		    	else:
+		    		return []
+		    	if vec_lst:
+		    		sum_vec = [sum(column) for column in zip(*vec_lst)]
+		    	else:
+		    		# in case vec_lst is empty, meaning word not in model like utevents.
+		    		return []
+	    		return sum_vec
+
+	    	results = get_first_nnp(results)
+	    	word_vector = get_vector(results)
+	    	# print sani_title, results, word_vector
+	    	writer.writerow({'id': row['id'], 'title': sani_title, 'tags': results, 'wordvec': word_vector, 'author': row['author'], 'date': row['date'], 'url': row['url'], 'content': row['content']})
+	    	print 'Processing vec NO. ' + str(row['id'])
 
 
 
