@@ -131,6 +131,10 @@ request.post('http://airloft.org/ada/', {form:{description: inputText}}, functio
     });
 ```
 
+### word2vec
+
+For finding similarity, using `from sklearn.metrics.pairwise import cosine_similarity` is my final choice, it's better than simply calculating distance. 
+
 ## Trouble Shooting
 
 ### backup.csv format
