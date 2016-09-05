@@ -84,6 +84,12 @@ As an alternative, if TextBlob is down, we may switch to [translate](https://pyp
 
 Look at [translate](https://github.com/terryyin/google-translate-python) library for more information. Notice that in its issue("Need to encode input as utf-8"), we need to use like `content = str(translator.translate(ch_content.encode('utf-8')))` to get the translation working.
 
+However, both of them are not stable enough. Use official google translate api again.
+
+api key token: AIzaSyBZx4GANyssAEQdVlG2XuSeY-8vUsxRkBw
+
+Then, format the query string into such format: `https://www.googleapis.com/language/translate/v2?key=<key>&source=zh&target=en&q=<words>`
+
 ### Read & Write files with .csv
 
 Check [this post](https://docs.python.org/2/library/csv.html) for more information.
