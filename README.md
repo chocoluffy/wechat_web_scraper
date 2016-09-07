@@ -151,6 +151,12 @@ Please remember to start redis server before starting python server. For detaile
 
 Sometimes, we get such error as "UnicodeEncodeError: 'ascii' codec can't encode character u'\xa0' in position 20: ordinal not in range(128)", basically, stop using `str()` to convert from unicode to encoded text / bytes. Solution working in my case: replace `str()` with `.encode('utf-8')`.
 
+### Ubuntu python module can't load
+
+Never overuse `sudo` for `pip install`. For example, when `flask.ext.api` is deprecated, I use `Flask_API` instead. However, `sudo pip install Flask_API` doesn't solve the problem but having `pip install Flask_API` can do the trick.
+
+Also, be aware that the trick that virtual environment does is that it appends a python package path to origin $PATH env variables, so that you can access virtualenv packages like gensim from `conda install gensim`.
+
 ## Some interesting stats
 
 What threshold confidence value will be appropriate to use to identify reliable articles?
