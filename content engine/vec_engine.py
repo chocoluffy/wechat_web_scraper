@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask_api import FlaskAPI
+from flask.ext.api import FlaskAPI
 from flask import request, current_app, abort, jsonify
 import gensim
 
