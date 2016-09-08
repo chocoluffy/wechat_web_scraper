@@ -4,7 +4,9 @@ from flask import request, current_app, abort, jsonify
 import gensim
 
 app = FlaskAPI(__name__)
-model = gensim.models.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+# model = gensim.models.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+# model = gensim.models.Word2Vec.load_word2vec_format('eigenwords.300k.200.en.txt', binary=False)
+model = gensim.models.Word2Vec.load_word2vec_format('text8.model.bin', binary=True)
 
 @app.route('/word2vec')
 def word2vec():
