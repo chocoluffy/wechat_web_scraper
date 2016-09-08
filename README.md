@@ -153,7 +153,7 @@ Sometimes, we get such error as "UnicodeEncodeError: 'ascii' codec can't encode 
 
 ### Ubuntu python module can't load
 
-Never overuse `sudo` for `pip install`. For example, when `flask.ext.api` is deprecated, I use `Flask_API` instead. However, `sudo pip install Flask_API` doesn't solve the problem but having `pip install Flask_API` can do the trick.
+Never overuse `sudo` for `pip install`. For example, when `flask.ext.api` is deprecated, I use `Flask_API` instead. However, `sudo pip install Flask_API` doesn't solve the problem but having `pip install Flask_API` can do the trick(not `sudo pip install Flask_API`).
 
 Also, be aware that the trick that virtual environment does is that it appends a python package path to origin $PATH env variables, so that you can access virtualenv packages like gensim from `conda install gensim`.
 
