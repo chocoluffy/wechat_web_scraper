@@ -14,6 +14,7 @@ import ast # convert string literal list into real list.
 from sklearn.metrics.pairwise import cosine_similarity
 import urllib
 import requests
+import gensim
 
 app = FlaskAPI(__name__)
 app.config.from_object('settings')
@@ -212,6 +213,8 @@ token = 'AIzaSyBZx4GANyssAEQdVlG2XuSeY-8vUsxRkBw'
 
 regex = re.compile('[^a-zA-Z]')
 
+model = gensim.models.Word2Vec.load_word2vec_format('text8.model.bin', binary=True)
+
 
 ### Load all vector from wordvec_file.csv
 allvec_lst = []
@@ -272,18 +275,18 @@ def wordvec():
         vec_lst = []
         if pair_lst:
             for word, tag in pair_lst:
-                query = 'http://localhost:5050/word2vec'
-                params = {'word': word}
-                res = requests.get(query, params)
-                vec = res.json()
-                if len(vec) < 10: # if return a empty list
-                    return []
-                else:                
-                    vec_single = map(lambda x: float(x.strip('\n ]')) , vec.split('[')[1].strip(']}').split(','))
-                    vec_lst.append(vec_single)
+                # query = 'http://localhost:5050/word2vec'
+                # params = {'word': word}
+                # res = requests.get(query, params)
+                # vec = res.json()
+                # if len(vec) < 10: # if return a empty list
+                #     return []
+                # else:                
+                #     vec_single = map(lambda x: float(x.strip('\n ]')) , vec.split('[')[1].strip(']}').split(','))
+                #     vec_lst.append(vec_single)
                 # instead load from model, make to http request to local.
-                # if word in model:
-                #     vec_lst.append(model[word])   
+                if word in model:
+                    vec_lst.append(model[word]) 
         else:
           return []
         if vec_lst:
