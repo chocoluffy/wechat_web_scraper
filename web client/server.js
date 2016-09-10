@@ -17,7 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //app.use(express.bodyParser());
 
-app.get('/ada', function(req, res){
+// app.get('/ada', function(req, res){
+// 	res.sendFile('index.html', { root : __dirname});
+// });
+
+app.get('/wordvec', function(req, res){
 	res.sendFile('index.html', { root : __dirname});
 });
 
@@ -114,12 +118,17 @@ app.post('/ada', function(req, res) {
 });
 
 app.post('/wordvec', function(req, res) {
-	var content = req.body.content || "未知";
+	var content = req.body.content || "unknown";
+	var title = req.body.title || "unknown";
+	var literal_title = req.body.littitle || "unknown";
+	var link = req.body.link || "unknown";
+	var password = req.body.password || "unknown";
+
 	request({ 
 		url: 'http://localhost:5000/wordvec',
 		method: 'GET',
 		headers: {'X-API-TOKEN' : 'FOOBAR1'},
-		json: {'content': content}
+		json: {'content': content, 'title': title, 'literal_title': literal_title, 'password': password, 'link': link}
 		}, function (error, response, body) {
 			res.send(body);
 		}

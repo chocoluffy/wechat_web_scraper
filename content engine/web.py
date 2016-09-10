@@ -15,6 +15,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import urllib
 import requests
 import gensim
+import warnings
 
 app = FlaskAPI(__name__)
 app.config.from_object('settings')
@@ -218,23 +219,23 @@ model = gensim.models.Word2Vec.load_word2vec_format('text8.model.bin', binary=Tr
 
 
 ### Load all vector from wordvec_file.csv
-allvec_lst = []
 vec_dimension = len(example_vec)
 null_vec = [0.0001] * vec_dimension
-title_lst = []
-url_lst = []
+
 
 ### Load Chinese titles out.
-with open(new_ada_content) as source:
-    reader = csv.DictReader(source.read().splitlines())
-    for row in reader:
-        title_lst.append(row['title'].strip().decode('utf-8'))
-        url_lst.append(row['url'])
+# with open(new_ada_content) as source:
+#     reader = csv.DictReader(source.read().splitlines())
+#     for row in reader:
+#         title_lst.append(row['title'].strip().decode('utf-8'))
+#         url_lst.append(row['url'])
 
 @app.route('/wordvec')
 @token_auth
 def wordvec():
-
+    allvec_lst = []
+    title_lst = []
+    url_lst = []
     with open(new_wordvec_file) as source:
         reader = csv.DictReader(source.read().splitlines())
         for row in reader:      
@@ -242,8 +243,12 @@ def wordvec():
             real_vec = ast.literal_eval(row['wordvec'])
             if real_vec: # can't do this, since we need the index to trace back the right entry!!
                 allvec_lst.append(real_vec)
+                title_lst.append(row['title'].strip().decode('utf-8'))
+                url_lst.append(row['url'])
             else:
                 allvec_lst.append(null_vec)
+                title_lst.append(row['title'].strip().decode('utf-8'))
+                url_lst.append(row['url'])
 
     title = request.data.get('title').encode('utf-8') if request.data.get('title') else ''
     literal_title = request.data.get('literal_title').strip().encode('utf-8') if request.data.get('literal_title') else ''
@@ -256,6 +261,8 @@ def wordvec():
         From webpage input, instead of API.
         """
         querystring = literal_title
+
+    print 'ready to translate: ', title, querystring, literal_title, link, password
 
     quote = urllib.quote(querystring)
 
@@ -316,10 +323,14 @@ def wordvec():
 
     ### if password matches, then save the new link, title to csv file.
     if password == 'yushunzhe':
-        with open(wordvec_file, 'a') as target:
-            writer = csv.writer(target)
-            newrow = {'title': title, 'tags': results, 'wordvec': word_vector, 'url': link}
-            writer.writerow(newrow)
+        with open(new_wordvec_file) as source:
+            reader = csv.DictReader(source.read().splitlines())
+            rowid = str(len(list(reader))) # get the number of total rows.
+            with open(new_wordvec_file, 'a') as target:
+                writer = csv.writer(target)
+                newrow = [rowid, title, literal_title, results, word_vector, link]
+                print newrow
+                writer.writerow(newrow)
 
     def cos_similarity(nested_lst, lst):
         results = map(lambda x: cosine_similarity(x, lst)[0][0], nested_lst)
@@ -328,6 +339,7 @@ def wordvec():
     if word_vector:
         dist = cos_similarity(allvec_lst, word_vector)
         max_id = dist.index(max(dist))
+        print max_id
         match = {}
         match['keywords'] = map(lambda x: x[0], results)
         match['title'] = title_lst[max_id]
@@ -337,6 +349,7 @@ def wordvec():
         return {"message": "cannot find matching articles."}
 
 if __name__ == '__main__':
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
     app.run(debug=True)
 
 

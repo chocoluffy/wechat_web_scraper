@@ -6,21 +6,21 @@
 </head>
 <body>
    <!-- need to use "http://airloft.org/ada/" to get it working on EC2. Otherwise, use localhost:5001/ada/ instead!-->
-   <!-- <form action="http://airloft.org/ada/" method="post"> -->
-   <form action="http://localhost:5001/ada/" method="post">
+   <form action="http://airloft.org/wordvec/" method="post">
+   <!-- <form action="http://localhost:5001/ada/" method="post"> -->
          <fieldset>
-            <label for="title">标题:</label>
-            <input type="text" id="title" name="title" placeholder="输入公众号文章标题..." />
+            <label for="title">真正的标题:</label>
+            <input type="text" id="title" name="title" placeholder="比如：留学生们，你真的出国了吗？..." />
             <br />
-            <label for="author">作者:</label>
-            <input type="text" id="author" name="author" placeholder="输入作者名字..." />
+            <label for="title">叙述化标题:</label>
+            <input type="text" id="littitle" name="littitle" placeholder="比如：留学生们出国的反思与思考..." />
             <br />
             <label for="url">网址:</label>
             <input type="text" id="url" name="url" placeholder="输入文章url..." />
             <br />
-            <label for="description">内容:</label>
+<!--             <label for="description">内容:</label>
             <textarea id="description" name="description" placeholder="输入文章内容..." rows="20" cols="50"></textarea>
-            <br />
+            <br /> -->
             <label for="password">密钥:</label>
             <input type="text" id="password" name="password" placeholder="(optional)主要用于内部测试" />
             <br />

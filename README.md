@@ -47,6 +47,15 @@ List all python dependencies in `conda.txt`, then run `conda create -n <virtual 
 
 Then, need to install redis on mac to be tested in local environment(`brew install redis`). Use `ps aux | grep redis` to check if redis server is running. If it's not running, use the following command `nohup redis-server &` to start a redis-server process and let it run in background. Check [this post](http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/) for more information about install and run redis server.
 
+- backup.py(Input: wordvec-en-vec160904.csv, Output: new_wordvec-en-vec160904.csv)
+
+Do a field filter.
+
+- retag.py(Input: new_wordvec-en-vec160904.csv, Output: new_wordvec-en-vec160904.csv)
+
+based on new_wordvec-en-vec160904.csv, once people updated or populated csv file, run retag.py can update the "tag" and "wordvec" field based on literal_title field. If literal_title is in English, then directly do NLTK tagging and word2vec calculation. If literal_title is in Chinese, then first do Google translation, then do the above operations. So that either time, marketing people can easily update the csv.
+
+
 ### web client
 
 Next step, build a simple web client that allows users to upload a chunk of texts and submit, then I translate that texts into English and store in one public.csv file, then merge with ada-content-en.csv and do the TF-IDF again. Then give back a list of similar post. Web node app will spawn a child process that translate texts and construct http calls to engine server, which re-train and predict with new-coming text. Check [this post](http://www.sohamkamani.com/blog/2015/08/21/python-nodejs-comm/) for more information about how to communicate between python and node(with child_process package).
