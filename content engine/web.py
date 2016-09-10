@@ -26,6 +26,7 @@ new_stamp = '160825'
 base_dir = './data/'
 backup = base_dir + 'backup' + new_stamp + '.csv'
 wordvec_file = base_dir + 'wordvec-en-vec160904.csv'
+new_wordvec_file = base_dir + 'new_wordvec-en-vec160904.csv'
 new_ada_content = base_dir + 'wordvec160904.csv'
 
 def token_auth(f):
@@ -222,15 +223,6 @@ vec_dimension = len(example_vec)
 null_vec = [0.0001] * vec_dimension
 title_lst = []
 url_lst = []
-with open(wordvec_file) as source:
-    reader = csv.DictReader(source.read().splitlines())
-    for row in reader:      
-        # notice row['wordvec'] returns a string, not a list.
-        real_vec = ast.literal_eval(row['wordvec'])
-        if real_vec: # can't do this, since we need the index to trace back the right entry!!
-            allvec_lst.append(real_vec)
-        else:
-            allvec_lst.append(null_vec)
 
 ### Load Chinese titles out.
 with open(new_ada_content) as source:
@@ -242,7 +234,29 @@ with open(new_ada_content) as source:
 @app.route('/wordvec')
 @token_auth
 def wordvec():
-    querystring = request.data.get('content').strip().encode('utf-8')
+
+    with open(new_wordvec_file) as source:
+        reader = csv.DictReader(source.read().splitlines())
+        for row in reader:      
+            # notice row['wordvec'] returns a string, not a list.
+            real_vec = ast.literal_eval(row['wordvec'])
+            if real_vec: # can't do this, since we need the index to trace back the right entry!!
+                allvec_lst.append(real_vec)
+            else:
+                allvec_lst.append(null_vec)
+
+    title = request.data.get('title').encode('utf-8') if request.data.get('title') else ''
+    literal_title = request.data.get('literal_title').strip().encode('utf-8') if request.data.get('literal_title') else ''
+    link = request.data.get('link') if request.data.get('link') else ''
+    password = request.data.get('password') if request.data.get('password') else ''
+    querystring = request.data.get('content').strip().encode('utf-8') if request.data.get('content') else 'unknown'
+
+    if querystring == "unknown" and literal_title:
+        """
+        From webpage input, instead of API.
+        """
+        querystring = literal_title
+
     quote = urllib.quote(querystring)
 
     ### translate querystring into English.
@@ -300,6 +314,13 @@ def wordvec():
     word_vector = get_vector(results) # word_vector might be [].
     print results, word_vector
 
+    ### if password matches, then save the new link, title to csv file.
+    if password == 'yushunzhe':
+        with open(wordvec_file, 'a') as target:
+            writer = csv.writer(target)
+            newrow = {'title': title, 'tags': results, 'wordvec': word_vector, 'url': link}
+            writer.writerow(newrow)
+
     def cos_similarity(nested_lst, lst):
         results = map(lambda x: cosine_similarity(x, lst)[0][0], nested_lst)
         return results
@@ -316,8 +337,7 @@ def wordvec():
         return {"message": "cannot find matching articles."}
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    app.run(debug=True)
 
 
 
