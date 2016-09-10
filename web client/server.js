@@ -121,7 +121,7 @@ app.post('/wordvec', function(req, res) {
 	var content = req.body.content || "unknown";
 	var title = req.body.title || "unknown";
 	var literal_title = req.body.littitle || "unknown";
-	var link = req.body.link || "unknown";
+	var link = req.body.url || "unknown";
 	var password = req.body.password || "unknown";
 
 	request({ 
