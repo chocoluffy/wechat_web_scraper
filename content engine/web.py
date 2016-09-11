@@ -27,7 +27,8 @@ new_stamp = '160825'
 base_dir = './data/'
 backup = base_dir + 'backup' + new_stamp + '.csv'
 wordvec_file = base_dir + 'wordvec-en-vec160904.csv'
-new_wordvec_file = base_dir + 'new_wordvec-en-vec160904.csv'
+# new_wordvec_file = base_dir + 'new_wordvec-en-vec160904.csv'
+new_wordvec_file = base_dir + 'new_retag_wordvec-en-vec160904.csv'
 new_ada_content = base_dir + 'wordvec160904.csv'
 
 def token_auth(f):
@@ -284,7 +285,7 @@ def wordvec():
       nnp_counter = 0
       new_lst = []
       for word, tag in pair_lst:
-          if tag == 'NNP' and nnp_counter < 1:
+          if tag == 'NNP' and nnp_counter < 2: # used to be nnp_counter = 1
               new_lst.append((word.lower(), tag))
               nnp_counter += 1
           elif tag in ['NN', 'NNS', 'NNPS']:
