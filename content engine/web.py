@@ -263,7 +263,7 @@ def wordvec():
         """
         querystring = literal_title
 
-    print 'ready to translate: ', title, querystring, literal_title, link, password
+    # print 'ready to translate: ', title, querystring, literal_title, link, password
 
     quote = urllib.quote(querystring)
 
@@ -320,7 +320,8 @@ def wordvec():
 
     results = get_first_nnp(results)
     word_vector = get_vector(results) # word_vector might be [].
-    print results, word_vector
+    print results
+    # print word_vector
 
     ### if password matches, then save the new link, title to csv file.
     if password == 'yushunzhe':
