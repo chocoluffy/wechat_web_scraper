@@ -47,7 +47,7 @@ List all python dependencies in `conda.txt`, then run `conda create -n <virtual 
 
 Then, need to install redis on mac to be tested in local environment(`brew install redis`). Use `ps aux | grep redis` to check if redis server is running. If it's not running, use the following command `nohup redis-server &` to start a redis-server process and let it run in background. Check [this post](http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/) for more information about install and run redis server.
 
-- backup.py(Input: wordvec-en-vec160904.csv, Output: new_wordvec-en-vec160904.csv)
+- backup.py(Input: wordvec-en-vec160904.csv, Output: new_retag_wordvec-en-vec160904.csv)
 
 Do a field filter.
 
